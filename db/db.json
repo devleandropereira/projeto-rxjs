@@ -1,0 +1,24 @@
+{
+    "users": [
+        {
+            "id": 1,
+            "name": "Leandro Pereira",
+            "email": "leandrogpereira01@gmail.com",
+            "cpf": "12345678910"
+        },
+        {
+            "id": 2,
+            "name": "Susane Maria",
+            "email": "susane.freires@gmail.com",
+            "cpf": "12345678910"
+        },
+        {
+            "id": 3,
+            "name": "Lucas Costa",
+            "email": "lucas.costa@gmail.com",
+            "cpf": "98765432198"
+        }
+    ],
+    "user": {"cpf": "98765432198"}
+    
+}
