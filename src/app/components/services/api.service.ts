@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, concat, forkJoin, interval, map, merge, zip } from 'rxjs';
+import { Observable, catchError, concat, forkJoin, interval, map, merge, of, retry, share, shareReplay, throwError, toArray, zip } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -59,6 +59,49 @@ export class ApiService {
 
   getUserSwitchMapSearch(cpf: string) {
     return this.http.get(this.LOCAL + 'users?cpf=' + cpf);
+  }
+
+  getUserToArray() {
+    return this.http.get(this.LOCAL + 'user')
+      .pipe(
+        toArray()
+      )
+  }
+
+  getUsersDebounceTime(name: string) {
+    return this.http.get(this.LOCAL + 'users?name=' + name);
+  }
+
+  getUserShareReplay() {
+    return this.http.get(this.LOCAL + 'users')
+      .pipe(
+        shareReplay(1)
+      );
+  }
+
+  getUserShare() {
+    return this.http.get(this.LOCAL + 'users')
+      .pipe(
+        share()
+      );
+  }
+
+  getUserCatchError() {
+    return this.http.get(this.LOCAL + 'us')
+      .pipe(
+        catchError(error => {
+          if (error.status === 0 && error.status !== 404) {
+            return of('Ocorreu um erro na aplicação. Tente acessar mais tarde!')
+          } else if (error.status === 404) {
+            console.log(error.message);
+          } else {
+            return of('Ocorreu um erro no servidor, Tente mais tarde!');
+          }
+
+          return throwError(() => error);
+        }),
+        retry(2)
+      );
   }
 
 }
